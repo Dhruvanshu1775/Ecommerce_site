@@ -1,0 +1,92 @@
+{% extends 'sample.html' %}
+{% block content %}
+{% load static %}
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Order Tracking</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Fashon Category</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Tracking Box Area =================-->
+<section class="tracking_box_area section_gap">
+    <div class="container">
+        <div class="tracking_box_inner">
+            <p>To track your order please enter your Order ID in the box below and press the "Track" button. This
+                was given to you on your receipt and in the confirmation email you should have received.</p>
+            <form class="row tracking_form" action="{% url 'product:tracking' %}" method="post" novalidate="novalidate">
+                {% csrf_token %}
+                <div class="col-md-12 form-group">
+                    <input type="text" class="form-control" id="order" name="order" placeholder="Enter 8 Digit of Order Id" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Order ID'">
+                </div>
+                <!-- <div class="col-md-12 form-group">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Billing Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Billing Email Address'">
+                </div> -->
+                <div class="col-md-12 form-group">
+                    <button type="submit" value="submit" class="primary-btn">Track Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!--================End Tracking Box Area =================-->
+{% for odetail in odetails %}
+<div class="container1">
+    <article class="card">
+        <header class="card-header"> My Orders / Tracking </header>
+        <div class="card-body">
+            <h6>Order ID: {{odetail.order_id}}</h6>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Delivery time:</strong> <br>{{odetail.time_stamp|date:'d M Y'}}</div>
+                    {% if odetail.is_processing %}
+                    <div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>
+                    {% endif %}
+                    <div class="col"> <strong>Status:</strong> <br> Waiting {% if odetail.is_processing %} Picked By Courier {% elif odetail.is_delivered %} Delivered To Customer {% elif odetail.is_cancel %}Order Caancel{% endif %}</div>
+                    <!-- <div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div> -->
+                </div>
+            </article>
+            <div class="track">
+                {% if odetail.is_processing %}
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered To Customer</span> </div>
+                {% elif odetail.is_delivered %}
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered To Customer</span> </div>
+                {% else %}
+                <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered To Customer</span> </div>
+                {% endif %}
+
+                <!-- <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div> -->
+            </div>
+            <hr>
+            <ul class="row">
+                <li class="col-md-4">
+                    <figure class="itemside mb-3">
+                        <div class="aside"><img src="{{odetail.product_key.product_key.product_pic.url}}" class="img-sm border"></div>
+                        <figcaption class="info align-self-center">
+                            <p class="title">{{odetail.product_key.product_key.product_name}} <br>Quantity : {{odetail.product_key.product_quantity}}</p> <span class="text-muted">₹{{odetail.product_key.product_key.product_price}} </span>
+                        </figcaption>
+                    </figure>
+                </li>
+
+            </ul>
+            <hr> <a href="{% url 'product:productpage' %}" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to orders</a>
+        </div>
+    </article>
+</div>
+{% endfor %}
+{% endblock %}

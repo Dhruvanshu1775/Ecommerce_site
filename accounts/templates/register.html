@@ -1,0 +1,52 @@
+{% extends 'login.html' %}
+{% load static %}
+{% block content %}
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Login</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="{% url 'accounts:login' %}">Login</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="login_box_area section_gap">
+    <div class="container">
+        {% if message %}
+        <div class="alert alert-danger col-mx-12" role="alert">
+            {{message}}
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="login_form_inner">
+                    <h3>Register to enter</h3>
+                    <form class="row login_form" action="{% url 'accounts:register' %}" method="post" >
+                        {% csrf_token %}
+                        <div class="col-lg-12 form-group">
+                            <input type="text" class="form-control" id="name" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'" value="{{username}}">
+                        </div>
+                        <div class="col-lg-12 form-group">
+                            <input type="text" class="form-control" id="name" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'" value="{{email}}">
+                        </div>
+                        <div class="col-lg-12 form-group">
+                            <input type="text" class="form-control" id="name" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                        </div>
+                        <div class="col-lg-12 form-group">
+                            <input type="text" class="form-control" id="name" name="password2" placeholder="Re-enter Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="primary-btn">Register In</button>
+                            <a href="{% url 'accounts:login' %}">Already Account</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
