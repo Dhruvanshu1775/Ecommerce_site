@@ -89,8 +89,6 @@ soupsieve==2.2.1
 sqlparse==0.3.1
 tablib==3.0.0
 tensorboard==2.3.0
-tensorboard-plugin-wit==1.7.0
-tensorflow==2.3.1
 toml==0.10.1
 Unidecode==1.1.2
 urllib3==1.26.5
